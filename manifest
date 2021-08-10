@@ -1,0 +1,19 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.0.0
+apiversion: 2
+architectures: arm64 x86_64
+mac: true
+description: titanium-pdf-merge
+author: Hans Knöchel
+license: MIT
+copyright: Copyright (c) 2021-present by Hans Knöchel
+
+# these should not be edited
+name: titanium-pdf-merge
+moduleid: ti.pdfmerge
+guid: c336ac00-86fb-4700-b851-353fd5cbb1f2
+platform: iphone
+minsdk: 9.0.0
