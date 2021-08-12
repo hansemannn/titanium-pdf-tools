@@ -11,4 +11,6 @@
 
 - (TiBlob *)mergedPDF:(id)paths;
 
+- (TiBlob *)pdfFromImage:(id)args;
+
 @end

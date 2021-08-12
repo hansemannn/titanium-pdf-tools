@@ -52,4 +52,15 @@
   return [[TiBlob alloc] initWithData:[fullDocument dataRepresentation] mimetype:@"application/pdf"];
 }
 
+- (TiBlob *)pdfFromImage:(id)args
+{
+  ENSURE_SINGLE_ARG(args, NSDictionary);
+
+  UIImage *image = [TiUtils toImage:args[@"image"] proxy:nil];
+  PDFDocument *fullDocument = [PDFDocument new];
+  [fullDocument insertPage:[[PDFPage alloc] initWithImage:image] atIndex:0];
+
+  return [[TiBlob alloc] initWithData:fullDocument.dataRepresentation mimetype:@"application/pdf"];
+}
+
 @end
