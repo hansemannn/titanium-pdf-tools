@@ -11,6 +11,9 @@
 #import "TiHost.h"
 #import "TiBlob.h"
 
+const static CGFloat A4_WIDTH = 595.2;
+const static CGFloat A4_HEIGHT = 841.8;
+
 @implementation TiPdfmergeModule
 
 #pragma mark Internal
@@ -57,8 +60,44 @@
   ENSURE_SINGLE_ARG(args, NSDictionary);
 
   UIImage *image = [TiUtils toImage:args[@"image"] proxy:nil];
+  BOOL resizeImage = [TiUtils boolValue:args[@"resizeImage"] def:NO];
+
+  // Handle image resize in A4 container
+  if (resizeImage) {
+    CGFloat padding = [TiUtils floatValue:args[@"padding"] def:80];
+
+    // Prepare the raw data
+    NSMutableData *pdfData = [NSMutableData new];
+    CGDataConsumerRef pdfConsumer = CGDataConsumerCreateWithCFData((CFMutableDataRef)pdfData);
+
+    // Calculate the aspect ratio
+    CGFloat imageWidth = A4_WIDTH - (padding * 2);
+    CGFloat imageHeight = round(imageWidth * (image.size.height / image.size.width));
+
+    // Calculate the bounces
+    CGRect mediaBox = CGRectMake(0, 0, A4_WIDTH, A4_HEIGHT); // A4
+    CGRect imageBox = CGRectMake((A4_WIDTH / 2) - (imageWidth / 2), (A4_HEIGHT / 2) - (imageHeight / 2), imageWidth, imageHeight);
+
+    // Create the context to draw in
+    CGContextRef pdfContext = CGPDFContextCreate(pdfConsumer, &mediaBox, NULL);
+
+    // Perform the drawing
+    CGContextBeginPage(pdfContext, &mediaBox);
+    CGContextDrawImage(pdfContext, imageBox, image.CGImage);
+    CGContextEndPage(pdfContext);
+
+    // Cleanup
+    CGDataConsumerRelease(pdfConsumer);
+    CGContextRelease(pdfContext);
+    
+    return [[TiBlob alloc] initWithData:pdfData mimetype:@"application/pdf"];
+  }
+
+  // Default case: Generate a fitting PDF
   PDFDocument *fullDocument = [PDFDocument new];
-  [fullDocument insertPage:[[PDFPage alloc] initWithImage:image] atIndex:0];
+  PDFPage *page = [[PDFPage alloc] initWithImage:image];
+
+  [fullDocument insertPage:page atIndex:0];
 
   return [[TiBlob alloc] initWithData:fullDocument.dataRepresentation mimetype:@"application/pdf"];
 }
