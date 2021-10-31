@@ -12,6 +12,7 @@ Merges a given number of PDF files into one file using the `PDFKit` framework
 ### Methods
 
 - `mergedPDF(paths) -> Ti.Blob`: Returns a `Ti.Blob` that represents a merged PDF from the given PDF files
+- `pdfFromImage({ image: yourImage, resizeImage: true|false, padding: 80 })`: Returns a `Ti.Blob` that represents a PDF created from an image
 
 ## Example
 
