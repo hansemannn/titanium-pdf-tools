@@ -1,6 +1,6 @@
-# Titanium iOS PDF Merge
+# Titanium iOS PDF Tools
 
-Merges a given number of PDF files into one file using the `PDFKit` framework
+Merges a given number of PDF files into one file using the `PDFKit` framework. Note: This module used to be `ti.pdfmerge`!
 
 ## Requirements
 
