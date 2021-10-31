@@ -1,11 +1,11 @@
 /**
  * This is a generated file. Do not edit or your changes will be lost
  */
-#import "TiPdfmergeModuleAssets.h"
+#import "TiPdftoolsModuleAssets.h"
 
 extern NSData* filterDataInRange(NSData* thedata, NSRange range);
 
-@implementation TiPdfmergeModuleAssets
+@implementation TiPdftoolsModuleAssets
 
 - (NSData *)moduleAsset
 {
