@@ -35,6 +35,7 @@ const static CGFloat A4_HEIGHT = 841.8;
   ENSURE_SINGLE_ARG(paths, NSArray);
 
   PDFDocument *fullDocument = [PDFDocument new];
+  NSUInteger indexOfFullDocument = 0;
 
   for (NSString *pdfPath in paths) {
     PDFDocument *pdfDocument = [[PDFDocument alloc] initWithURL:[TiUtils toURL:pdfPath proxy:self]];
@@ -45,8 +46,9 @@ const static CGFloat A4_HEIGHT = 841.8;
     while (pageCount > 0) {
       PDFPage *pdfPage = [pdfDocument pageAtIndex:index];
       if (pdfPage != nil) {
-        [fullDocument insertPage:pdfPage atIndex:index];
+        [fullDocument insertPage:pdfPage atIndex:indexOfFullDocument];
         index++;
+        indexOfFullDocument++;
       }
       pageCount--;
     }
