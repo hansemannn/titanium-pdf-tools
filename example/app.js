@@ -1,4 +1,4 @@
-import TiPDFMerge from 'ti.pdfmerge';
+import TiPDFTools from 'ti.pdftools';
 
 const window = Ti.UI.createWindow({
 	backgroundColor: '#fff'
@@ -12,7 +12,7 @@ btn.addEventListener('click', () => {
 		Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'test2.pdf').nativePath
 	];
 
-	const document = TiPDFMerge.mergedPDF(paths);
+	const document = TiPDFTools.mergedPDF(paths);
 	const file = Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory, 'document.pdf');
 	file.write(document);
 
