@@ -1,4 +1,4 @@
-import TiPDFMerge from 'ti.pdfmerge';
+import TiPDFTools from 'ti.pdftools';
 
 const window = Ti.UI.createWindow();
 const btn = Ti.UI.createButton({ title: 'Generate PDF!' });
@@ -12,7 +12,7 @@ btn.addEventListener('singletap', () => {
     const testImage = testImageView.toImage();
 
     // Create the blob and write it
-    const blob = TiPDFMerge.pdfFromImage({
+    const blob = TiPDFTools.pdfFromImage({
         image: testImage,
         resizeImage: true, // NEW: Resize images to fit A4 bounds
         padding: 100 // NEW: left/right padding, only used when "resizeImage" is `true`
@@ -22,7 +22,6 @@ btn.addEventListener('singletap', () => {
     file.write(blob);
 
     console.warn(file.nativePath);
-
 });
 
 window.add(btn);
