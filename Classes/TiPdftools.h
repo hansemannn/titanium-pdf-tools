@@ -14,4 +14,4 @@ FOUNDATION_EXPORT double TiPdftoolsVersionNumber;
 //! Project version string for TiPdftools.
 FOUNDATION_EXPORT const unsigned char TiPdftoolsVersionString[];
 
-#import "TiPdftoolsModuleAssets.h"
+#import <TiPdftools/TiPdftoolsModuleAssets.h>

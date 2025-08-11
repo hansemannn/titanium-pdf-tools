@@ -3,7 +3,7 @@
 //  titanium-pdf-tools
 //
 //  Created by Hans Knöchel
-//  Copyright (c) 2021 Hans Knöchel. All rights reserved.
+//  Copyright (c) 2021-present Hans Knöchel. All rights reserved.
 //
 
 import UIKit
@@ -15,8 +15,6 @@ let A4_HEIGHT: Float = 841.8
 
 @objc(TiPdftoolsModule)
 class TiPdftoolsModule: TiModule {
-
-  public let testProperty: String = "Hello World"
   
   func moduleGUID() -> String {
     return "08427de1-2112-471a-857b-357884da0f74"
@@ -100,5 +98,23 @@ class TiPdftoolsModule: TiModule {
     pdfContext.closePDF()
 
     return TiBlob(data: pdfData as Data, mimetype: "application/pdf")
+  }
+  
+  @objc(openDocument:)
+  func openDocument(arguments: [Any]) {
+    guard let params = arguments.first as? [String: Any] else { return }
+    guard let url = params["url"] as? String,
+          let fileURL = TiUtils.toURL(url, proxy: self) else { return }
+    
+    let pageNumber = TiUtils.intValue("pageNumber", properties: params, def: 0)
+    let title = TiUtils.stringValue("title", properties: params)
+    
+    let viewer = TiPDFViewerController()
+    let nav = UINavigationController(rootViewController: viewer)
+    nav.modalPresentationStyle = .fullScreen
+    
+    TiApp.sharedApp().controller.topPresentedController().present(nav, animated: true) {
+      viewer.openPDF(at: fileURL, pageNumber: Int(pageNumber), title: title)
+    }
   }
 }
